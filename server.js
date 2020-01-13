@@ -26,12 +26,15 @@ app.get("/api/hello", function(req, res) {
 app.get("/api/timestamp/:date_string", (req, res) => {
   let date = new Date();
   if (req.params.date_string) {
-    let timestamp = Date.parse(req.params.date_string);
-
-    if (isNaN(date) == false) {
-      date = new Date(timestamp);
-    } else {
-      res.json({ unix: null, utc: "Invalid date" });
+    console.log("date string = " + req.params.date_string);
+    date = new Date(req.params.date_string);
+    console.log("date = " + date);
+    if (!date) {
+      date = new Date(Number(req.params.date_string));
+      console.log("number date = " + date);
+      if (!date) {
+        res.json({ unix: null, utc: "Invalid date" });
+      }
     }
   }
 
